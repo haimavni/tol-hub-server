@@ -21,19 +21,30 @@ def index():
     subdomain = ''
     if '//' in s:
         s = s.split('//')[-1]
-    lst = s.split('.')
+    if ':' in s:
+        domain, port = s.split(':')
+    else:
+        domain, port = s, ''
+    host = '.'.join(domain.split('.')[-2:])
+    if port:
+        host += ':' + port
+    lst = domain.split('.')
     domain = lst[0]
-    idx = 0 if domain in ('gbstories', 'tol') else 1
+    if domain in ('gbstories', 'tol'):
+        idx = 0
+        app = 'gbs'
+    else:
+        idx = 1
+        app = domain
+        
     subdomain = ''.join(lst[idx:-2])
-    app = domain
     if subdomain == 'dev':
         app += '__dev'
     elif subdomain == 'test':
         app += '__test'
-    elif domain == 'gbs':
+    elif app == 'gbs':
         app += '__www'
-    url = URL(a=app, c='default', f='index')
-    redirect("/{}/static/aurelia/index.html".format(app))
+    redirect("http://{}/{}/static/aurelia/index.html".format(host, app))
 
 def user():
     """
