@@ -46,8 +46,8 @@ def index():
         app += '__www'
 
     fname = 'applications/{app}/static/aurelia/index-{app}.html'.format(app=app)
-    index = 'index-{app}'.format(app=app) if os.isfile(fname) else index = 'index'
-    redirect("http://{host}/{app}/static/aurelia/{index}.html".format(host=host, app=app, idex=index))
+    idx = 'index-{app}'.format(app=app) if os.path.isfile(fname) else 'index'
+    redirect("http://{host}/{app}/static/aurelia/{idx}.html".format(host=host, app=app, idx=idx))
     
 def user():
     """
