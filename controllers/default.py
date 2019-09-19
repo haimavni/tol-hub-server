@@ -7,7 +7,7 @@
 # - user is required for authentication and authorization
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
-
+import os
 
 def index():
     """
@@ -44,8 +44,11 @@ def index():
         app += '__test'
     elif app == 'gbs':
         app += '__www'
-    redirect("http://{}/{}/static/aurelia/index.html".format(host, app))
 
+    fname = 'applications/{app}/static/aurelia/index-{app}.html'.format(app=app)
+    index = 'index-{app}'.format(app=app) if os.isfile(fname) else index = 'index'
+    redirect("http://{host}/{app}/static/aurelia/{index}.html".format(host=host, app=app, idex=index))
+    
 def user():
     """
     exposes:
